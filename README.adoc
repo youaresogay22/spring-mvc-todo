@@ -1,0 +1,27 @@
+= TODO API 개발
+
+== Mybatis 기반으로 구현 합니다.
+* link:{docdir}/src/main/java/config[MybatisConfig]를 참고 합니다.
+* link:{docdir}/src/main/resources/db.properties[db.properties]를 아래링크를 확인하여 본인의 MySQL 계정으로 설정합니다.
+
+** https://nhnacademy.dooray.com/task/3619694603650156997/3706515972063679243
+
+== Student 간단한 예제를 추가 했습니다.
+* link:{docdir}/src/main/java/com/nhnacademy/todo/controller/StudentRestController.java[StudentRestController]를 참고 합니다.
+
+== Controller Unit Test
+* 모든 Controller는 Unit Test를 작성합니다.
+* 통합테스트는 하지 않습니다.
+* link:src/test/java/com/nhnacademy/todo/controller/StudentRestControllerTest.java[StudentRestControllerTest]를 참고 합니다.
+
+== 제출
+* 학번으로 branch를 생성후 제출 합니다.
+* ex) feature/AIGY01-011
+
+
+
+
+
+
+
+

@@ -88,27 +88,6 @@ class EventControllerTest {
                 .andExpect(status().isCreated());
     }
 
-//    @Test
-//    void updateEvent() throws Exception {
-////        EventDto eventDto = EventDto.builder()
-////                .subject("Spring framework 학습")
-////                .eventAt(LocalDate.now())
-////                .build();
-////
-////        EventCreatedResponseDto eventCreatedResponseDto = eventService.insert("marco",eventDto);
-////
-////
-////
-////        RequestBuilder requestBuilder = MockMvcRequestBuilders
-////                .put("/api/calendar/events/{id}",eventCreatedResponseDto.getId())
-////                .content(objectMapper.writeValueAsString(eventDto))
-////                .header("X-USER-ID","marco")
-////                .contentType(MediaType.APPLICATION_JSON);
-////
-////        mockMvc.perform(requestBuilder).andDo(print())
-////                .andExpect(status().isCreated());
-//    }
-
     @Test
     @DisplayName("삭제")
     void deleteEvent() throws Exception {
@@ -152,9 +131,6 @@ class EventControllerTest {
         MvcResult mvcResult = mockMvc.perform(requestBuilder)
                 .andDo(print())
                 .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.id").value(eventCreatedResponseDto.getId()))
-//                .andExpect(jsonPath("$.subject").value(eventDto.getSubject()))
-//                .andExpect(jsonPath("$.eventAt").value(eventDto.getEventAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))))
                 .andReturn();
         log.info("json:{}", mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8));
         DocumentContext context = JsonPath.parse(mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8));
