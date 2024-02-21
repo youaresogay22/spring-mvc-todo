@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface StudentMapper {
     Optional<Student> findById(String id);
+    void save(Student student);
 }

@@ -2,6 +2,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nhnacademy.todo.student.mapper.StudentMapper">
+    <insert id="save">
+        insert into students set
+                id=#{id},
+                name=#{name},
+                gender=#{gender},
+                age=#{age},
+                created_at=#{createdAt}
+    </insert>
 
     <select id="findById" resultType="com.nhnacademy.todo.student.domain.Student">
         select id,name,gender,age,created_at from students where id = #{id}
