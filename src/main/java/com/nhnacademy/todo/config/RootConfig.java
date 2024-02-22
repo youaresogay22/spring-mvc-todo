@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.nhnacademy.todo.repository.EventRepository;
-import com.nhnacademy.todo.repository.impl.MemoryEventRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -41,10 +39,5 @@ public class RootConfig {
         //timestamp 출력을 disable. -> 문자열형태로 출력
         xmlMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         return xmlMapper;
-    }
-
-    @Bean(initMethod = "init")
-    public EventRepository eventRepository(){
-       return new MemoryEventRepository();
     }
 }

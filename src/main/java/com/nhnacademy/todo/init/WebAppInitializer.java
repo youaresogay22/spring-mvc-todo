@@ -42,4 +42,5 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
         return dispatcherServlet;
     }
+
 }

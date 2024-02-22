@@ -4,11 +4,13 @@ import com.nhnacademy.todo.exception.StudentNotFoundException;
 import com.nhnacademy.todo.student.domain.Student;
 import com.nhnacademy.todo.student.mapper.StudentMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 
 @Service
+@Transactional
 public class StudentService {
 
     private final StudentMapper studentMapper;
@@ -24,4 +26,5 @@ public class StudentService {
         }
         return studentOptional.get();
     }
+
 }
