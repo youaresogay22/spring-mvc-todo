@@ -11,6 +11,16 @@
                 created_at=#{createdAt}
     </insert>
 
+<!--    parameterType="com.nhnacademy.t0do.student.domain.Student"는 생략 가능-->
+    <update id="update" parameterType="com.nhnacademy.todo.student.domain.Student">
+        update students set
+        id= #{id},
+        name= #{name},
+        gender= #{gender},
+        age= #{age},
+        created_at= #{created_at} where id = #{id}
+    </update>
+
     <select id="findById" resultType="com.nhnacademy.todo.student.domain.Student">
         select id,name,gender,age,created_at from students where id = #{id}
     </select>

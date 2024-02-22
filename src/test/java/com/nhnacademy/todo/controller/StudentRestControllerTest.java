@@ -10,10 +10,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,7 +27,7 @@ class StudentRestControllerTest {
     StudentService studentService;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         studentService = mock(StudentService.class);
         mockMvc = MockMvcBuilders.standaloneSetup(new StudentRestController(studentService))
                 .setControllerAdvice(CommonRestControllerAdvice.class)
@@ -38,14 +39,14 @@ class StudentRestControllerTest {
     @DisplayName("id:marco 조회")
     void getStudent() throws Exception {
 
-        Student student = new Student("marco","마르코","M",40);
+        Student student = new Student("marco", "마르코", "M", 40);
 
         when(studentService.getStudent(anyString())).thenReturn(student);
 
         mockMvc.perform(
-                    get("/students/marco")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .accept(MediaType.APPLICATION_JSON)
+                        get("/students/marco")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
                 .andExpect(status().isOk())

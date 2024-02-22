@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
         @ContextConfiguration(classes = {RootConfig.class}),
         @ContextConfiguration(classes = {WebConfig.class})
 })
-@Transactional
+@Transactional // 테스트 코드에 붙으면 테스트 실행 후 커밋되기전 전부 롤백 처리
 //@Import(value = {MybatisConfig.class, DatabaseConfig.class, DatabaseProperties.class})
 class StudentMapperTest {
 

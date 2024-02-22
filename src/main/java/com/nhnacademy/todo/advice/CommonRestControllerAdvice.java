@@ -16,7 +16,7 @@ public class CommonRestControllerAdvice {
 
 
     @ExceptionHandler(StudentNotFoundException.class)
-    public ResponseEntity studentNotFoundExHandler(){
+    public ResponseEntity<?> studentNotFoundExHandler(){
         return ResponseEntity
                 .notFound()
                 .build();

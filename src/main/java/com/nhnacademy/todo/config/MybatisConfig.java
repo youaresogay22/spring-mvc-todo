@@ -23,6 +23,7 @@ public class MybatisConfig {
     @Bean
     public SqlSessionFactoryBean sqlSessionFactoryBean() throws IOException {
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        // 세션팩토리를 빈으로 등록했으므로 세션팩토리에서 필요할 때마다 세션을 만들어서 트랜잭션을 수행함
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource);
         sessionFactory.setMapperLocations(resolver.getResources("classpath*:**/maps/*.xml"));

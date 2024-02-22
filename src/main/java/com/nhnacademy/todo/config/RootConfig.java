@@ -24,6 +24,7 @@ public class RootConfig {
         //LocalDate, LocalDateTime support jsr310
         objectMapper.registerModule(new JavaTimeModule());
         //timestamp 출력을 disable. -> 문자열형태로 출력
+        //기본 옵션이 켜져있으면 localdatetime 이 아닌 date로 변환하여 출력하기 때문
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         return objectMapper;
     }
