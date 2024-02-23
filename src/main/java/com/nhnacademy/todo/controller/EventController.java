@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/calendar")
@@ -23,11 +23,10 @@ public class EventController {
 
     @PostMapping("/events")
     @ResponseStatus(HttpStatus.CREATED)
-    public long saveEvent(@RequestHeader("X-USER-ID") String userID,
-                          @RequestParam("subject") String subject,
-                          @RequestParam("eventAt") LocalDate eventAt) {
-        Event event = new Event(userID, subject, eventAt);
-        event.setId();
+    public long saveEvent(@RequestBody HashMap<String, String> request,
+                          @RequestHeader("X-USER-ID") String userID) {
+        LocalDate eventAt = LocalDate.parse(request.get("eventAt"));
+        Event event = new Event(userID, request.get("subject"), eventAt);
 
         return eventService.saveEvent(event);
     }
@@ -39,19 +38,20 @@ public class EventController {
         return eventService.getEvent(eventId);
     }
 
-    @GetMapping("/events/?year={year}&month={month}&day={day}")
+    //parameter "day" 존재하는 경우에만
+    @GetMapping(value = "/events/", params = {"day"})
     @ResponseStatus(HttpStatus.OK)
-    public List<Optional<Event>> getEventByYearMonthDay(@PathVariable("year") int year,
-                                                        @PathVariable("month") int month,
-                                                        @PathVariable("day") int day) {
-        log.debug("{}", year);
+    public List<Event> getEventByYearMonthDay(@RequestParam("year") String year,
+                                              @RequestParam("month") String month,
+                                              @RequestParam("day") String day) {
+
         return eventService.getEventOfWholeDay(year, month, day);
     }
 
-    @GetMapping("/events/?year={year}&month={month}")
+    @GetMapping("/events/")
     @ResponseStatus(HttpStatus.OK)
-    public List<Optional<Event>> getEventByYearMonth(@PathVariable("year") int year,
-                                                     @PathVariable("month") int month) {
+    public List<Event> getEventByYearMonth(@RequestParam("year") String year,
+                                           @RequestParam("month") String month) {
 
         return eventService.getEventOfWholeMonth(year, month);
     }
@@ -69,9 +69,9 @@ public class EventController {
         eventService.deleteEventOfWholeDay(localDate);
     }
 
-    @GetMapping("/daily-register-count?date={date}")
+    @GetMapping("/daily-register-count")
     @ResponseStatus(HttpStatus.OK)
-    public int countEventOfWholeDay(@PathVariable("date") String date) {
+    public int countEventOfWholeDay(@RequestParam("date") String date) {
         return eventService.countEventsOfDay(date);
     }
 }

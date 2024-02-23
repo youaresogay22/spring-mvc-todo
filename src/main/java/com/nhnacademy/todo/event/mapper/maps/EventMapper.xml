@@ -5,11 +5,11 @@
 
     <insert id="save">
         insert into events set
-        event_id= #{event.id},
-        user_id= #{event.userId},
-        subject= #{event.subject},
-        event_at= #{event.eventAt},
-        created_at= #{event.createdAt}
+        event_id= #{id},
+        user_id= #{userId},
+        subject= #{subject},
+        event_at= #{eventAt},
+        created_at= #{createdAt}
     </insert>
 
     <delete id="delete">
@@ -29,29 +29,35 @@
 
 
     <select id="getTodoItem" resultType="com.nhnacademy.todo.event.domain.Event">
-        SELECT event_id, event_at, subject
+        SELECT *
         FROM events
         WHERE event_id= #{eventId}
     </select>
 
-    <select id="getTodoItemListOfDay" resultType="java.util.Optional">
-        SELECT event_id, event_at, subject
+    <select id="getTodoItemListOfDay" resultType="com.nhnacademy.todo.event.domain.Event">
+        SELECT *
         FROM events
-        WHERE DATE_FORMAT(event_at, '%Y-%m-%d') = '#{year}-#{month}-#{day}'
+        WHERE DATE_FORMAT(event_at, '%Y-%m-%d') = #{date_YMD}
     </select>
 
-    <select id="getTodoItemListOfMonth" resultType="java.util.Optional">
+
+    <select id="getTodoItemListOfMonth" resultType="com.nhnacademy.todo.event.domain.Event">
         SELECT event_id, event_at, subject
         FROM events
-        WHERE DATE_FORMAT(event_at, '%Y-%m') = '#{year}-#{month}'
+        WHERE DATE_FORMAT(event_at, '%Y-%m') = #{date_YM}
     </select>
 
 
     <select id="countByTodoDate" resultType="java.lang.Integer">
         select count(*) as count
         from events
-        where DATE_FORMAT(event_at, '%Y-%m-%d') = '#{year}-#{month}-#{day}'
+        where date_format(event_at, '%Y-%m-%d') = #{date}
     </select>
 
+    <select id="getLastEventId" resultType="java.lang.Long">
+        SELECT event_id
+        FROM events
+        ORDER BY event_id DESC LIMIT 1
+    </select>
 
 </mapper>

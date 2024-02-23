@@ -45,12 +45,12 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         for (HttpMessageConverter<?> converter : converters) {
-            log.error("convertor:{}",converter.getClass().getSimpleName());
+            log.error("convertor:{}", converter.getClass().getSimpleName());
         }
         // 기본으로 등록되는 MappingJackson2HttpMessageConverter 제거함
-        converters.removeIf(o->o instanceof MappingJackson2HttpMessageConverter || o instanceof MappingJackson2XmlHttpMessageConverter);
+        converters.removeIf(o -> o instanceof MappingJackson2HttpMessageConverter || o instanceof MappingJackson2XmlHttpMessageConverter);
         // bean으로 등록해놓은 objectMapper를 주입하여MappingJackson2HttpMessageConverter 생성
-        HttpMessageConverter<Object> converter =  new MappingJackson2HttpMessageConverter(objectMapper);
+        HttpMessageConverter<Object> converter = new MappingJackson2HttpMessageConverter(objectMapper);
         converters.add(converter);
 
         MappingJackson2XmlHttpMessageConverter xmlHttpMessageConverter = new MappingJackson2XmlHttpMessageConverter(xmlMapper);
@@ -58,7 +58,7 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
     }
 
     @Bean
-    public ThymeleafViewResolver thymeleafViewResolver(){
+    public ThymeleafViewResolver thymeleafViewResolver() {
         ThymeleafViewResolver thymeleafViewResolver = new ThymeleafViewResolver();
         thymeleafViewResolver.setTemplateEngine(springTemplateEngine());
         thymeleafViewResolver.setCharacterEncoding("UTF-8");
@@ -67,13 +67,13 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
         return thymeleafViewResolver;
     }
 
-    public SpringTemplateEngine springTemplateEngine(){
+    public SpringTemplateEngine springTemplateEngine() {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(springResourceTemplateResolver());
         return templateEngine;
     }
 
-    public SpringResourceTemplateResolver springResourceTemplateResolver(){
+    public SpringResourceTemplateResolver springResourceTemplateResolver() {
         SpringResourceTemplateResolver springResourceTemplateResolver = new SpringResourceTemplateResolver();
         springResourceTemplateResolver.setApplicationContext(applicationContext);
         springResourceTemplateResolver.setCharacterEncoding("UTF-8");
@@ -98,7 +98,7 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("index");
         registry.addViewController("/index.html").setViewName("index");
-        registry.addRedirectViewController("/favicon.ico","/resources/favicon.ico");
+        registry.addRedirectViewController("/favicon.ico", "/resources/favicon.ico");
     }
 
     @Override
@@ -111,4 +111,5 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
                 .mediaType("json", MediaType.APPLICATION_JSON)
                 .mediaType("xml", MediaType.APPLICATION_XML);
     }
+
 }

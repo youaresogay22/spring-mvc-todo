@@ -3,17 +3,17 @@ package com.nhnacademy.todo.event.service;
 import com.nhnacademy.todo.event.domain.Event;
 import com.nhnacademy.todo.event.mapper.EventMapper;
 import com.nhnacademy.todo.exception.EventNotFoundException;
-import com.nhnacademy.todo.exception.EventNotFoundOnDateException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional
+@Slf4j
 public class EventService {
     private final EventMapper eventMapper;
 
@@ -22,6 +22,7 @@ public class EventService {
     }
 
     public long saveEvent(Event event) {
+        event.setId(getEventId());
         eventMapper.save(event);
         return event.getId();
     }
@@ -35,7 +36,6 @@ public class EventService {
     }
 
     public Event getEvent(long id) {
-
         Optional<Event> eventOptional = eventMapper.getTodoItem(id);
 
         if (eventOptional.isEmpty()) {
@@ -44,30 +44,26 @@ public class EventService {
         return eventOptional.get();
     }
 
-    public List<Optional<Event>> getEventOfWholeDay(int year, int month, int day) {
-
-        List<Optional<Event>> eventOptionalList = eventMapper.getTodoItemListOfDay(year, month, day);
-
-        if (eventOptionalList.isEmpty()) {
-            throw new EventNotFoundOnDateException(day);
-        }
-        return eventOptionalList;
+    public List<Event> getEventOfWholeDay(String year, String month, String day) {
+        String date = year + "-" + month + "-" + day;
+        List<Event> list = eventMapper.getTodoItemListOfDay(date);
+        log.debug("!!!{}!!!", list);
+        return list;
     }
 
-    public List<Optional<Event>> getEventOfWholeMonth(int year, int month) {
-
-        List<Optional<Event>> eventOptionalList = eventMapper.getTodoItemListOfMonth(year, month);
-
-        if (eventOptionalList.isEmpty()) {
-            throw new EventNotFoundOnDateException(month);
-        }
-        return eventOptionalList;
+    public List<Event> getEventOfWholeMonth(String year, String month) {
+        String date = year + "-" + month;
+        return eventMapper.getTodoItemListOfMonth(date);
     }
 
-    public int countEventsOfDay(String day) {
-        String[] parsedDay = day.split("-");
-        return eventMapper.countByTodoDate(parsedDay[0], parsedDay[1], parsedDay[2]);
+    public int countEventsOfDay(String date) {
+        return eventMapper.countByTodoDate(date);
     }
 
+    private long getEventId() {
+        Optional<Long> tempId = Optional.ofNullable(eventMapper.getLastEventId());
+        long id = tempId.orElse(0L);
+        return id + 1L;
+    }
 
 }

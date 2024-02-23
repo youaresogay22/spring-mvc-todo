@@ -4,7 +4,6 @@ import com.nhnacademy.todo.event.domain.Event;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,10 +17,12 @@ public interface EventMapper {
 
     Optional<Event> getTodoItem(long eventId);
 
-    List<Optional<Event>> getTodoItemListOfDay(int year, int month, int day);
+    List<Event> getTodoItemListOfDay(String date_YMD);
 
-    List<Optional<Event>> getTodoItemListOfMonth(int year, int month);
+    List<Event> getTodoItemListOfMonth(String date_YM);
 
-    int countByTodoDate(String year, String month, String day);
+    int countByTodoDate(String date);
+
+    Long getLastEventId();
 
 }

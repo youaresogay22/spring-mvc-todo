@@ -1,14 +1,14 @@
 package com.nhnacademy.todo.event.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Getter
+@AllArgsConstructor
 public class Event {
-    private static AtomicLong ID_GENERATOR;
     //아이디
     private long id;
 
@@ -31,8 +31,8 @@ public class Event {
         this.createdAt = LocalDateTime.now();
     }
 
-    public void setId() {
-        this.id = ID_GENERATOR.incrementAndGet();
+    public void setId(long id) {
+        this.id = id;
     }
 
     public void update(String subject) {
