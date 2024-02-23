@@ -42,7 +42,7 @@
 
 
     <select id="getTodoItemListOfMonth" resultType="com.nhnacademy.todo.event.domain.Event">
-        SELECT event_id, event_at, subject
+        SELECT *
         FROM events
         WHERE DATE_FORMAT(event_at, '%Y-%m') = #{date_YM}
     </select>
