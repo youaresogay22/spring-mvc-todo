@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/calendar")
@@ -23,12 +24,16 @@ public class EventController {
 
     @PostMapping("/events")
     @ResponseStatus(HttpStatus.CREATED)
-    public long saveEvent(@RequestBody HashMap<String, String> request,
-                          @RequestHeader("X-USER-ID") String userID) {
+    public Map<String, Long> saveEvent(@RequestBody HashMap<String, String> request,
+                                       @RequestHeader("X-USER-ID") String userID) {
+        Map<String, Long> result = new HashMap<>();
+// response DTO객체를 되는 만큼 생성할 것, 나쁜 것 아님
         LocalDate eventAt = LocalDate.parse(request.get("eventAt"));
         Event event = new Event(userID, request.get("subject"), eventAt);
 
-        return eventService.saveEvent(event);
+        result.put("id", eventService.saveEvent(event));
+
+        return result;
     }
 
     @GetMapping("/events/{id}")
@@ -71,7 +76,9 @@ public class EventController {
 
     @GetMapping("/daily-register-count")
     @ResponseStatus(HttpStatus.OK)
-    public int countEventOfWholeDay(@RequestParam("date") String date) {
-        return eventService.countEventsOfDay(date);
+    public Map<String, Integer> countEventOfWholeDay(@RequestParam("date") String date) {
+        Map<String, Integer> result = new HashMap<>();
+        result.put("count", eventService.countEventsOfDay(date));
+        return result;
     }
 }
